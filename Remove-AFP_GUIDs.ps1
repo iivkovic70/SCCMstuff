@@ -1,4 +1,5 @@
-﻿$listOfGUIDs = New-Object System.Collections.ArrayList
+. {
+$listOfGUIDs = New-Object System.Collections.ArrayList
 $listOfGUIDs.Add('{B77CF588-97F8-4FD3-91C6-89ACB74DFFFD}')  #32.0.0.142
 $listOfGUIDs.Add('{55F6C148-A47A-4280-8CB0-EE2B3AE261D0}')  #32.0.0.114
 $listOfGUIDs.Add('{ED2C2C02-109A-48CD-9EC7-0FB70447346E}')  #32.0.0.101
@@ -111,7 +112,7 @@ $listOfGUIDs.Add('{3799ACD7-66E2-4749-A851-95E1193B217D}')  #13.0.0.206
 $listOfGUIDs.Add('{8F9B1C8E-F50E-4139-8701-45016021E102}')  #13.0.0.182
 $listOfGUIDs.Add('{B01EA176-C775-4490-B4CC-938A4B3EF5A3}')  #12.0.0.77
 $listOfGUIDs.Add('{60AED4A0-3092-4DF4-A0A2-31F121122E92}')  #12.0.0.70
-$listOfGUIDs.Add('{52793F88-BF4D-4AA6-8696- 80E72CE758B1}')  #12.0.0.44
+$listOfGUIDs.Add('{52793F88-BF4D-4AA6-8696-80E72CE758B1}')  #12.0.0.44
 $listOfGUIDs.Add('{E4FFDAFD-7E94-4C17-AA7F-FA2CC0B879FD}')  #12.0.0.38 (ActiveX only)
 $listOfGUIDs.Add('{41042E28-CCA1-4147-869F-9E928B38F04C}')  #11.9.900.170
 $listOfGUIDs.Add('{EFC4BB62-CD01-4F63-9165-FC5DEB350469}')  #11.9.900.152
@@ -148,7 +149,7 @@ $listOfGUIDs.Add('{25F2AB39-E3DD-4cd7-8697-E98CF27BA1F1}')  #11.3.300.271
 $listOfGUIDs.Add('{A02F7026-D635-465C-80D8-FB47AF185934}')  #11.3.300.270
 $listOfGUIDs.Add('{98616875-CF30-4BE5-AAED-36EF4AC6EE27}')  #11.3.300.268
 $listOfGUIDs.Add('{BEE621F9-F94D-493C-BC45-D1B315DC8839}')  #11.3.300.265
-
+ } | Out-Null
 
 foreach ($guidToRemove in $listOfGUIDs)
 {
@@ -157,10 +158,11 @@ if (Test-Path  "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Unin
 {
 Remove-Item "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$guidToRemove" -Recurse
 Write-Host "Removed!"
-}
-}
-Catch {Write-Host "Greška!"
-
-}
+Break
 }
 
+}
+Catch {Write-Host "Some error!"
+}
+}
+Write-Host "Nothing Removed!"
